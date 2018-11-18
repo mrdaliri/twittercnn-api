@@ -62,10 +62,26 @@ const fetchTweets = function (screen_name, count) {
     });
 };
 
+const fetchNews = function (keyword, count) {
+    const axios = require('axios');
+
+    return new Promise((resolve, reject) => {
+        axios.get(`https://search.api.cnn.io/content?q=${keyword}&size=${count}`).then(function (response) {
+            resolve(response.data);
+        }).catch(reject);
+    });
+};
+
 router.get('/', function (req, res, next) {
     const {count = 25} = req.query;
-    fetchTweets('realDonaldTrump', count).then(function (data) {
-        res.send(data);
+
+    Promise.all([fetchTweets('realDonaldTrump', count), fetchNews('Trump', count)]).then(function (data) {
+        res.send({
+            tweets: data[0],
+            news: data[1]
+        })
+    }).catch(function (error) {
+        res.send(error);
     });
 });
 

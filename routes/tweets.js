@@ -18,7 +18,8 @@ const analyzeTone = function (text, index) {
             if (error) {
                 reject(error);
             } else {
-                resolve({index: index, tone: toneAnalysis});
+                resolve({index: index, tones: toneAnalysis.document_tone.tone_categories[0].tones});
+                // resolve({index: index, tones: toneAnalysis});
             }
         });
     }));
@@ -41,17 +42,14 @@ const fetchTweets = function (screen_name, count) {
 
             let tones = [];
             tweets.forEach(function (tweet, index) {
-                tweet.retweeted = tweet.hasOwnProperty('retweeted_status');
-                let text = tweet.retweeted ? tweet.retweeted_status.full_text : tweet.full_text;
+                let text = tweet.hasOwnProperty('retweeted_status') ? tweet.retweeted_status.full_text : tweet.full_text;
 
-                if (!tweet.retweeted) {
-                    tones.push(analyzeTone(text, index));
-                }
+                tones.push(analyzeTone(text, index));
             });
 
             Promise.all(tones).then(function (values) {
                 values.forEach(function (result) {
-                    tweets[result.index].tone = result.tone;
+                    tweets[result.index].tones = result.tones;
                 });
 
                 resolve(tweets);
@@ -62,11 +60,11 @@ const fetchTweets = function (screen_name, count) {
     });
 };
 
-router.get('/', function (req, res, next) {
+router.get('/:username', function (req, res, next) {
     const {count = 25} = req.query;
 
-    fetchTweets('realDonaldTrump', count).then(function (data) {
-        res.send(data)
+    fetchTweets(req.params.username, count).then(function (data) {
+        res.send(data);
     });
 });
 

@@ -12,9 +12,11 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "moment": "^2.22.2",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
     "random-number": "0.0.9",
+    "truncate": "^2.0.1",
     "twitter": "^1.7.1",
     "watson-developer-cloud": "^3.13.0"
   }

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var toneAnalyzer = new ToneAnalyzerV3({
@@ -42,6 +43,7 @@ const fetchTweets = function (screen_name, count) {
 
             let tones = [];
             tweets.forEach(function (tweet, index) {
+                tweet.datetime = moment(tweet.created_at).unix();
                 let text = tweet.hasOwnProperty('retweeted_status') ? tweet.retweeted_status.full_text : tweet.full_text;
 
                 tones.push(analyzeTone(text, index));

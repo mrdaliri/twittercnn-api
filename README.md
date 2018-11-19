@@ -2,7 +2,7 @@
 
 This is an Node.JS-powered API which aggregate Twitter timeline and CNN news feed.
 
-It has two main endpoints in addition to one minor one. It uses Twitter Standard API and CNN Search API to retrieve data. Furthermore, it consumes IBM Watson Tone Analyzer for analyzing emotions and tones in posted tweets and shows these emotions in form of some funny stickers.
+It has two main endpoints in addition to one minor one. It uses Twitter Standard API and CNN Search API to retrieve data. Furthermore, it consumes IBM Watson Tone Analyzer for analyzing emotions and tones in posted tweets and shows these emotions in form of some funny stickers. All requests to other services are async in order to speed up the process.
 
 ## Endpoints
 
